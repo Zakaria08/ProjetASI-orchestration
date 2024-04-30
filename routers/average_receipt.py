@@ -9,7 +9,7 @@ import os
 router = APIRouter()
 
 
-@router.post("/average_receipt")
+@router.get("/average_receipt")
 def average_receipt() -> HTTPMsg:
     message = None
     try:

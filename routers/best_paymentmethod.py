@@ -9,7 +9,7 @@ import os
 router = APIRouter()
 
 
-@router.post("/best_paymentmethod")
+@router.get("/best_paymentmethod")
 def best_paymentmethod() -> HTTPMsg:
     message = None
     try:
