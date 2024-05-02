@@ -1,16 +1,6 @@
-from schemas import HTTPMsg
+from schemas import HTTPMsg, Client
 
-json = {
-    "id": 7,
-    "lastname": "Miller",
-    "firstname": "Frank",
-    "gender": "M",
-    "birthday": "1980-01-21T23:00:00Z",
-    "cardnumber": "4556737586899855",
-}
-
-
-def average_age(clients):
+def averageage(clients: list[Client]):
     if not clients:
         raise HTTPMsg(
             status=500,
@@ -24,7 +14,7 @@ def average_age(clients):
         average = total / len(clients)
         return average
     
-def ratio_women(clients):
+def ratiowomen(clients: list[Client]):
     if not clients:
         raise HTTPMsg(
             status=500,

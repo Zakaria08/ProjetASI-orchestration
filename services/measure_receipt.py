@@ -1,7 +1,7 @@
-from schemas import HTTPMsg
+from schemas import HTTPMsg, Receipt
 
 
-def most_purchased_item(receipts):
+def most_purchased_item(receipts: list[Receipt]):
     if not receipts:
         raise HTTPMsg(
             status=500,
@@ -19,7 +19,7 @@ def most_purchased_item(receipts):
             most_purchased_item = max(items, key=items.get)
         return most_purchased_item
 
-def average(receipts):
+def average(receipts: list[Receipt]):
     if not receipts:
         raise HTTPMsg(
             status=500,
@@ -33,7 +33,7 @@ def average(receipts):
         average = total / len(receipts)
         return average
 
-def best_payment_method(receipts):
+def best_payment_method(receipts: list[Receipt]):
     if not receipts:
         raise HTTPMsg(
             status=500,

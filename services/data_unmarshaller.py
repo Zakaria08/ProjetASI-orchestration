@@ -26,7 +26,7 @@ def unmarshall_client(client_data) -> Client:
         )
 
 
-def unmarshall_allreceipts(allreceipts_data) -> Receipt:
+def unmarshall_allreceipts(allreceipts_data) -> list[Receipt]:
     try:
         allreceipts = [Receipt(**receipt_data) for receipt_data in allreceipts_data]
         return allreceipts

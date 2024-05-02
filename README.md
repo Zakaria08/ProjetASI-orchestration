@@ -4,6 +4,8 @@
 # git clone https://github.com/Zakaria08/ProjetASI-orchestration.git
 ```
 
+Change the .env.example into a .env file
+
 ## Run
 
 The following will build and deploy the container locally.

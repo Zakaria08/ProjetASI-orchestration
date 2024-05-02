@@ -1,6 +1,6 @@
-from schemas import HTTPMsg
+from schemas import HTTPMsg, Client
 from fastapi import APIRouter
-from services.measure_client import ratio_women
+from services.measure_client import ratiowomen
 from services.data_fetcher import fetch_data
 from services.data_unmarshaller import unmarshall_allclients
 import os
@@ -15,8 +15,8 @@ def ratio_women() -> HTTPMsg:
     try:
         data = fetch_data(os.getenv("API_RECEIPT"))
 
-        receipts = unmarshall_allclients(data)
-        result = ratio_women(receipts)
+        clients: list[Client] = unmarshall_allclients(data)
+        result = ratiowomen(clients)
 
         message = HTTPMsg(status=200, message="Success", content=result)
         return message
