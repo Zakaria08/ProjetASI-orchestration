@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  mariadb:
+    volumes:
+      - .docker/mariadb-dump:/docker-entrypoint-initdb.d
+    image: mariadb
+    ports:
+      - 3306:3306
+    environment:
+      - MARIADB_ROOT_PASSWORD=bach-et-buck
+      - MARIADB_USER=mysqluser
+      - MARIADB_PASSWORD=mysqlpw
+
+  app:
+    build: .
+    ports:
+      - 11000:11000
+    depends_on:
+      - mariadb
