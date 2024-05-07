@@ -1,13 +1,9 @@
-from schemas import HTTPMsg, Receipt
+from schemas import Receipt
 
 
 def most_purchased_item(receipts: list[Receipt]):
     if not receipts:
-        raise HTTPMsg(
-            status=500,
-            message="Le serveur a rencontré une erreur en essayant de récupérer les informations concernant le ticket de caisse(vide)",
-            content={"error": "receipts list is empty"},
-        )
+        raise Exception("Error: receipts list is empty")
     else:
         items = {}
         for receipt in receipts:
@@ -19,13 +15,10 @@ def most_purchased_item(receipts: list[Receipt]):
             most_purchased_item = max(items, key=items.get)
         return most_purchased_item
 
+
 def average(receipts: list[Receipt]):
     if not receipts:
-        raise HTTPMsg(
-            status=500,
-            message="Le serveur a rencontré une erreur en essayant de récupérer les informations concernant le ticket de caisse(vide)",
-            content={"error": "receipts list is empty"},
-        )
+        raise Exception("Error: receipts list is empty")
     else:
         total = 0
         for receipt in receipts:
@@ -33,13 +26,10 @@ def average(receipts: list[Receipt]):
         average = total / len(receipts)
         return average
 
+
 def best_payment_method(receipts: list[Receipt]):
     if not receipts:
-        raise HTTPMsg(
-            status=500,
-            message="Le serveur a rencontré une erreur en essayant de récupérer les informations concernant le ticket de caisse(vide)",
-            content={"error": "receipts list is empty"},
-        )
+        raise Exception("Error: receipts list is empty")
     else:
         payment_methods = {}
         for receipt in receipts:

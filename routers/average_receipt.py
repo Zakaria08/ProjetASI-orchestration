@@ -3,7 +3,7 @@ from fastapi import APIRouter
 from services.measure_receipt import average
 from services.data_fetcher import fetch_data
 from services.data_unmarshaller import unmarshall_allreceipts
-import os
+import os, traceback
 
 
 router = APIRouter()
@@ -17,8 +17,10 @@ def average_receipt() -> HTTPMsg:
 
         receipts : list[Receipt] = unmarshall_allreceipts(data)
         result = average(receipts)
-
+        
         message = HTTPMsg(status=200, message="Success", content=result)
         return message
-    except HTTPMsg as e:
-        return e
+    
+    except Exception as exc:
+        print(traceback.format_exc())
+        return HTTPMsg(status=500, message="Erreur Serveur", content=str(exc))

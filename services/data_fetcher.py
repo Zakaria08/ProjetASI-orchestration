@@ -1,4 +1,3 @@
-from schemas import HTTPMsg
 import requests
 
 def fetch_data(url):
@@ -7,8 +6,4 @@ def fetch_data(url):
         response.raise_for_status()
         return response.json()
     except requests.RequestException as e:
-        raise HTTPMsg(
-            status=500,
-            message="Le serveur a rencontré une erreur en essayant de récupérer les informations concernant les tickets de caisses",
-            content={"error": str(e)},
-        )
+        raise Exception(f"The server encountered an error while trying to fetch the data: {e}")
