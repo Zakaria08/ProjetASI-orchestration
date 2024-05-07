@@ -1,5 +1,5 @@
-uvicorn
-requests
-fastapi
-jinja2
-pydantic
+uvicorn == 0.29.0
+requests == 2.31.0
+fastapi == 0.111.0
+pydantic == 2.7.1
+python-dateutil == 2.9.0

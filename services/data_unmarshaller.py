@@ -35,9 +35,8 @@ def unmarshall_allreceipts(allreceipts_data) -> list[Receipt]:
 def unmarshall_allclients(allclients_data) -> Client:
     try:
         allclients = [Client(**client_data) for client_data in allclients_data]
-        print(allclients)
         return allclients
     except ValidationError as e:
         raise Exception(
-            f"The server encountered an error when trying to retrieve information about the customer list: {e}"
+            f"The server encountered an error when trying to retrieve information about the customer list 'unmarshall_allclients': {e}"
         )

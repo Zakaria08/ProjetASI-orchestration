@@ -1,16 +1,10 @@
 from schemas import Client, HTTPMsg
 
 
-def averageage(clients: list[Client]):
+def all_clients(clients: list[Client]) -> list[Client]:
     if not clients:
         raise Exception("Error: Clients list is empty")
-    else:
-        total = 0
-        for client in clients:
-            total += client.age
-        average = total / len(clients)
-        return average
-
+    return clients
 
 def ratiowomen(clients: list[Client]):
     if not clients:

@@ -1,14 +1,15 @@
-from pydantic import BaseModel
+from pydantic import BaseModel,Extra
 from typing import Any
 
 
 class Client(BaseModel):
-    id: int
     lastname: str
     firstname: str
     gender: str
-    birthday: int
+    birthday: str
     cardnumber: str
+    class Config:
+        extra = Extra.allow
 
 
 class Receipt(BaseModel):
