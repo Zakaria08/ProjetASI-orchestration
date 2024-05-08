@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   app:
     build: .
@@ -17,7 +15,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./Customers/mariadb-dump:/docker-entrypoint-initdb.d
+      - ./mariadb-dump:/docker-entrypoint-initdb.d
 
 volumes:
   db-data:
