@@ -1,4 +1,4 @@
 {:server {:port 11000}
- :db {:creds {:jdbc-url "jdbc:mysql://mariadb:3306/customers"
+ :db {:creds {:jdbc-url "jdbc:mysql://customers_mariadb:3306/customers"
               :user     "root"
               :password "bach-et-buck"}}}

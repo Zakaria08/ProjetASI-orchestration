@@ -1,5 +1,3 @@
-CREATE DATABASE customers;
-
 USE customers;
 
 CREATE TABLE customers (
