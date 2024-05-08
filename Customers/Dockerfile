@@ -11,4 +11,4 @@ COPY resources ./resources
 
 EXPOSE 11000
 
-CMD ["clojure", "-m", "app"]
+CMD ["clojure", "-M", "-m", "app"]

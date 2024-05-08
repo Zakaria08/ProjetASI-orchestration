@@ -1,25 +1,11 @@
-# Utiliser une base de JDK officielle
-FROM openjdk:21-jdk AS build
-
-# Définir le répertoire de travail dans le conteneur
+FROM maven:3.8.1-openjdk-17 as build
 WORKDIR /app
-
-# Copier le fichier de build Maven (pom.xml) et les sources localement vers le conteneur
-COPY mvnw .
-COPY .mvn .mvn
 COPY pom.xml .
-COPY src src
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-# Construire l'application en utilisant Maven wrapper
-RUN ./mvnw install -DskipTests
-
-# Exécuter une nouvelle étape pour minimiser la taille de l'image finale
-FROM openjdk:21-jdk
+FROM openjdk:23-slim
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
-
-# Exposer le port que l'application utilise
-EXPOSE 8081
-
-# Définir la commande pour démarrer l'application
-CMD ["java", "-jar", "app.jar"]
+EXPOSE 8085
+ENTRYPOINT ["java", "-jar", "app.jar"]
