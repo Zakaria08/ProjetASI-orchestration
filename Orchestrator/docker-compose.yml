@@ -1,0 +1,12 @@
+services:
+  projetasi:
+    build:
+      context: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/main
+    working_dir: /main
+    command: uvicorn main:app --host 0.0.0.0 --port 5000 --reload
+    env_file: 
+      - .env

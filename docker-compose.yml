@@ -1,14 +1,42 @@
-version: "3.8"
-
 services:
-  projetasi:
+  customers_app:
     build:
-      context: .
+      context: ./Customers
+    ports:
+      - "11000:11000"
+    depends_on:
+      - customers_mariadb
+
+  customers_mariadb:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: bach-et-buck
+      MYSQL_DATABASE: customers
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./Customers/mariadb-dump:/docker-entrypoint-initdb.d
+
+  orchestrator_app:
+    build:
+      context: ./Orchestrator
     ports:
       - "5000:5000"
     volumes:
-      - .:/main
+      - ./Orchestrator:/main
     working_dir: /main
     command: uvicorn main:app --host 0.0.0.0 --port 5000 --reload
-    env_file: 
-      - .env
+    env_file:
+      - ./Orchestrator/.env
+
+  receipts_app:
+    build:
+      context: ./Receipts
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8085"
+
+volumes:
+  customers_db_data:
+

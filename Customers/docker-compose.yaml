@@ -1,0 +1,22 @@
+services:
+  app:
+    build: .
+    ports:
+      - "11000:11000"
+    depends_on:
+      - customers_mariadb
+
+  customers_mariadb:
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: bach-et-buck
+      MARIADB_DATABASE: customers
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mariadb-dump:/docker-entrypoint-initdb.d
+
+volumes:
+  db-data:
+

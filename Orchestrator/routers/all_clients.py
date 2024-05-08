@@ -1,6 +1,6 @@
 from schemas import HTTPMsg, Receipt, Client
 from fastapi import APIRouter
-from services.measure_client_receipt import all_receipts_per_client
+from services.measure_client import all_clients
 from services.data_fetcher import fetch_data
 from services.data_unmarshaller import unmarshall_allreceipts, unmarshall_allclients
 import os, traceback
@@ -10,7 +10,7 @@ router = APIRouter()
 
 
 @router.get("/all_clients")
-def all_clients() -> HTTPMsg:
+def allclients() -> HTTPMsg:
     message = None
     try:
         client_list = fetch_data(os.getenv("API_CLIENT"))
