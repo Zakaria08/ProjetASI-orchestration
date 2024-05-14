@@ -52,18 +52,18 @@ public interface TicketRepository extends Repository<Ticket, Integer> {
 	 * Retrieve the average amount of all <code>Ticket</code>s from the data store.
 	 * @return a <code>Collection</code> of <code>Ticket</code>s
 	 */
-	@Query("SELECT itemsPurchased, COUNT(*) AS purchase_count FROM Ticket GROUP BY itemsPurchased ORDER BY purchase_count DESC LIMIT 1")
+	@Query("SELECT itemsPurchased, COUNT(*) AS purchase_count FROM Ticket GROUP BY itemsPurchased ORDER BY purchase_count DESC LIMIT 3")
 	@Transactional(readOnly = true)
-	String findMostPurchasedItem();
+	List<String> findMostPurchasedItem();
 
 	/**
 	 * Retrieve the most used payment method of all <code>Ticket</code>s from the data
 	 * store.
 	 * @return a <code>Collection</code> of <code>Ticket</code>s
 	 */
-	@Query("SELECT paymentMethod, COUNT(*) as usage_count FROM Ticket GROUP BY paymentMethod ORDER BY usage_count DESC LIMIT 1")
+	@Query("SELECT paymentMethod, COUNT(*) as usage_count FROM Ticket GROUP BY paymentMethod ORDER BY usage_count DESC LIMIT 3")
 	@Transactional(readOnly = true)
-	String findMostUsedPaymentMethod();
+	List<String> findMostUsedPaymentMethod();
 
 	/**
 	 * Retrieve the sum of all <code>Ticket</code>s for a specific month from the data
