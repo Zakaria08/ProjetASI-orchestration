@@ -2,6 +2,7 @@ package ch.heg.ig.BachEtBuck.services;
 
 import ch.heg.ig.BachEtBuck.business.Ticket;
 import ch.heg.ig.BachEtBuck.persistance.TicketRepository;
+import com.google.gson.Gson;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Victor Feller
@@ -79,7 +83,14 @@ public class TicketController {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 					.body("La moyenne du montant des tickets n'a pas été trouvée");
 			}
-			return ResponseEntity.ok(averageAmount);
+			//Utilisation de Gson pour retourner la réponse au format JSON
+			Gson gson = new Gson();
+			//Crée un objet Map pour contenir la somme
+			Map<String, BigDecimal> response = new HashMap<>();
+			response.put("averageAmount", averageAmount);
+			//Convertit en JSON
+			String jsonData = gson.toJson(response);
+			return ResponseEntity.ok(jsonData);
 		}
 		catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -95,7 +106,15 @@ public class TicketController {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 					.body("La moyenne du montant des tickets n'a pas été trouvée");
 			}
-			return ResponseEntity.ok(averageAmount);
+			//Utilisation de Gson pour retourner la réponse au format JSON
+			Gson gson = new Gson();
+			//Crée un objet Map pour contenir la somme
+			Map<String, String> response = new LinkedHashMap<>();
+			response.put("mostPurchasedItem", averageAmount.split(",")[0]);
+			response.put("quantity", averageAmount.split(",")[1]);
+			//Convertit en JSON
+			String jsonData = gson.toJson(response);
+			return ResponseEntity.ok(jsonData);
 		}
 		catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -106,12 +125,21 @@ public class TicketController {
 	@GetMapping("/tickets/mostUsedPaymentMethod")
 	public ResponseEntity<?> showMostUsedPaymentMethod() {
 		try {
-			List<String> mostUsedPaymentMethod = this.ticketRepository.findMostUsedPaymentMethod();
+			String mostUsedPaymentMethod = this.ticketRepository.findMostUsedPaymentMethod();
 			if (mostUsedPaymentMethod == null) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 					.body("La moyen de paiement le plus utilisé n'a pas été trouvé");
 			}
-			return ResponseEntity.ok(mostUsedPaymentMethod);
+			//Utilisation de Gson pour retourner la réponse au format JSON
+			Gson gson = new Gson();
+			//Crée un objet Map pour contenir la somme
+			Map<String, String> response = new LinkedHashMap<>();
+			//Split de la string
+			response.put("mostUsedPaymentMethod", mostUsedPaymentMethod.split(",")[0]);
+			response.put("quantity", mostUsedPaymentMethod.split(",")[1]);
+			//Convertit en JSON
+			String jsonData = gson.toJson(response);
+			return ResponseEntity.ok(jsonData);
 		}
 		catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -119,19 +147,26 @@ public class TicketController {
 		}
 	}
 
-	@GetMapping("/tickets/sumByMonth/{month}")
-	public ResponseEntity<?> showSumByMonth(@PathVariable(name = "month", required = false) String month) {
+	@GetMapping("/tickets/sum/{year}/{month}")
+	public ResponseEntity<?> showSumByYearMonth(@PathVariable(name = "year", required = false) String year, @PathVariable(name = "month", required = false) String month) {
 		try {
 			if (Integer.parseInt(month) < 1 || Integer.parseInt(month) > 12)
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 					.body("Le mois entré {" + month + "} n'est pas valide.");
 
-			BigDecimal sumByYear = this.ticketRepository.findSumByMonth(month);
-			if (sumByYear == null) {
+			BigDecimal sumByMonth = this.ticketRepository.findSumByYearMonth(year, month);
+			if (sumByMonth == null) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 					.body("La somme de tous les tickets pour le mois de " + month + " n'a pas été trouvée.");
 			}
-			return ResponseEntity.ok(sumByYear);
+			//Utilisation de Gson pour retourner la réponse au format JSON
+			Gson gson = new Gson();
+			//Crée un objet Map pour contenir la somme
+			Map<String, BigDecimal> response = new HashMap<>();
+			response.put("sum", sumByMonth);
+			//Convertit en JSON
+			String jsonData = gson.toJson(response);
+			return ResponseEntity.ok(jsonData);
 		}
 		catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -139,15 +174,29 @@ public class TicketController {
 		}
 	}
 
-	@GetMapping("tickets/sumByYear/{year}")
-	public ResponseEntity<?> showSumByYear(@PathVariable(name = "year", required = false) Integer year) {
+	@GetMapping("tickets/sum/{year}")
+	public ResponseEntity<?> showSumByYear(@PathVariable(name = "year", required = false) String year) {
 		try {
-			Integer sumByYear = this.ticketRepository.findSumByYear(year);
+			BigDecimal sumByYear;
+			if(String.valueOf(year).length() > 2) {
+				sumByYear = this.ticketRepository.findSumByYear(year);
+			} else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+						.body("La somme de tous les tickets pour l'année " + year + " n'a pas été trouvée.");
+			}
+
 			if (sumByYear == null) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 					.body("La somme de tous les tickets pour l'année " + year + " n'a pas été trouvée.");
 			}
-			return ResponseEntity.ok(sumByYear);
+			//Utilisation de Gson pour retourner la réponse au format JSON
+			Gson gson = new Gson();
+			//Crée un objet Map pour contenir la somme
+			Map<String, BigDecimal> response = new HashMap<>();
+			response.put("sum", sumByYear);
+			//Convertit en JSON
+			String jsonData = gson.toJson(response);
+			return ResponseEntity.ok(jsonData);
 		}
 		catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

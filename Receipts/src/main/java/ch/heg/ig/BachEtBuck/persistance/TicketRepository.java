@@ -61,18 +61,18 @@ public interface TicketRepository extends Repository<Ticket, Integer> {
 	 * store.
 	 * @return a <code>Collection</code> of <code>Ticket</code>s
 	 */
-	@Query("SELECT paymentMethod, COUNT(*) as usage_count FROM Ticket GROUP BY paymentMethod ORDER BY usage_count DESC LIMIT 3")
+	@Query("SELECT paymentMethod, COUNT(*) as usage_count FROM Ticket GROUP BY paymentMethod ORDER BY usage_count DESC LIMIT 1")
 	@Transactional(readOnly = true)
-	List<String> findMostUsedPaymentMethod();
+	String findMostUsedPaymentMethod();
 
 	/**
 	 * Retrieve the sum of all <code>Ticket</code>s for a specific month from the data
 	 * store.
 	 * @return a <code>Collection</code> of <code>Ticket</code>s
 	 */
-	@Query("SELECT SUM(totalAmount) FROM Ticket WHERE SUBSTRING(purchaseDate, 4, 2) =:month")
+	@Query("SELECT SUM(totalAmount) FROM Ticket WHERE SUBSTRING(purchaseDate, 7, 4) =:year AND SUBSTRING(purchaseDate, 4, 2) =:month")
 	@Transactional(readOnly = true)
-	BigDecimal findSumByMonth(@Param("month") String month);
+	BigDecimal findSumByYearMonth(@Param("year") String year, @Param("month") String month);
 
 	/**
 	 * Retrieve the sum of all <code>Ticket</code>s for a specific year from the data
@@ -81,6 +81,6 @@ public interface TicketRepository extends Repository<Ticket, Integer> {
 	 */
 	@Query("SELECT SUM(totalAmount) FROM Ticket WHERE SUBSTRING(purchaseDate, 7, 4) =:year")
 	@Transactional(readOnly = true)
-	Integer findSumByYear(@Param("year") Integer year);
+	BigDecimal findSumByYear(@Param("year") String year);
 
 }
