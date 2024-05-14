@@ -1,8 +1,7 @@
-from schemas import HTTPMsg, Receipt, Client
+from schemas import HTTPMsg, Client
 from fastapi import APIRouter
-from services.measure_client import all_clients
 from services.data_fetcher import fetch_data
-from services.data_unmarshaller import unmarshall_allreceipts, unmarshall_allclients
+from services.data_unmarshaller import unmarshall_allclients
 import os, traceback
 
 
@@ -16,9 +15,10 @@ def allclients() -> HTTPMsg:
         client_list = fetch_data(os.getenv("API_CLIENT") + "/customers")
 
         clients: list[Client] = unmarshall_allclients(client_list)
-        result = all_clients(clients)
+        if not clients:
+            Exception("Error: Clients list is empty")
 
-        message = HTTPMsg(status=200, message="Success", content=result)
+        message = HTTPMsg(status=200, message="Success", content=clients)
         return message
 
     except Exception as exc:
