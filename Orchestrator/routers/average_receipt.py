@@ -13,7 +13,7 @@ router = APIRouter()
 def average_receipt() -> HTTPMsg:
     message = None
     try:
-        data = fetch_data(os.getenv("API_RECEIPT"))
+        data = fetch_data(os.getenv("API_RECEIPT")+ "/tickets/all")
 
         receipts : list[Receipt] = unmarshall_allreceipts(data)
         result = average(receipts)

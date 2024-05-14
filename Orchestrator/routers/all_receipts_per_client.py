@@ -13,8 +13,8 @@ router = APIRouter()
 def all_receipts_clients() -> HTTPMsg:
     message = None
     try:
-        receipt_list = fetch_data(os.getenv("API_RECEIPT"))
-        client_list = fetch_data(os.getenv("API_CLIENT"))
+        receipt_list = fetch_data(os.getenv("API_RECEIPT") + "/tickets/all")
+        client_list = fetch_data(os.getenv("API_CLIENT")+ "/customers")
 
         receipts: list[Receipt] = unmarshall_allreceipts(receipt_list)
         clients: list[Client] = unmarshall_allclients(client_list)

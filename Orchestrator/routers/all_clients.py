@@ -13,7 +13,7 @@ router = APIRouter()
 def allclients() -> HTTPMsg:
     message = None
     try:
-        client_list = fetch_data(os.getenv("API_CLIENT"))
+        client_list = fetch_data(os.getenv("API_CLIENT") + "/customers")
 
         clients: list[Client] = unmarshall_allclients(client_list)
         result = all_clients(clients)
