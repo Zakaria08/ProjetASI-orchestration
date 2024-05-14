@@ -30,14 +30,14 @@ def average_client_age(receipts: list[Receipt], clients: list[Client]) -> float:
     for receipt in receipts:
         for client in clients:
             if receipt.cardNumber == client.cardnumber:
-                date_naissance = parser.isoparse(client.birthday)
+                date_naissance = parser.parse(client.birthday)
                 date_transaction = parser.parse(receipt.purchaseDate, dayfirst=True)
 
                 if date_naissance.tzinfo:
                     date_naissance = date_naissance.replace(tzinfo=None)
                 if date_transaction.tzinfo:
                     date_transaction = date_transaction.replace(tzinfo=None)
-
+               
                 difference = relativedelta(date_transaction, date_naissance)
                 age += difference.years
                 count += 1
