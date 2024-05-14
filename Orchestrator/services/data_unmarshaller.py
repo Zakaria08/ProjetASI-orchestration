@@ -11,14 +11,13 @@ def unmarshall_receipt(receipt_data) -> Receipt:
             f"The server encountered an error while trying to retrieve the receipt: {e}"
         )
 
-
 def unmarshall_client(client_data) -> Client:
     try:
         client = Client(**client_data)
         return client
     except ValidationError as e:
-        Exception(
-            f"The server encountered an error while trying to retrieve information about the client: {e}"
+        raise Exception(
+            f"The server encountered an error when trying to retrieve information about the customer 'unmarshall_client': {e}"
         )
 
 
