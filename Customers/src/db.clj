@@ -7,7 +7,7 @@
                  ["SELECT lastname,
                           firstname,
                           gender,
-                          birthday,
+                          DATE_FORMAT(CONVERT_TZ(birthday, '+00:00', @@session.time_zone), '%d-%m-%Y') AS birthday,
                           cardnumber
                    FROM customers"]
                  {:builder-fn rs/as-lower-maps}))
@@ -17,7 +17,7 @@
                  ["SELECT lastname,
                           firstname,
                           gender,
-                          birthday,
+                          DATE_FORMAT(CONVERT_TZ(birthday, '+00:00', @@session.time_zone), '%d-%m-%Y') AS birthday,
                           cardnumber
                    FROM customers
                    WHERE cardnumber = ?" cardnumber]
