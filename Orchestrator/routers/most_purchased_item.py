@@ -11,7 +11,7 @@ router = APIRouter()
 def best_purchased_item() -> HTTPMsg:
     message = None
     try:
-        most_purchased = fetch_data(os.getenv("API_RECEIPT") + "/mostPurchasedItem")
+        most_purchased = fetch_data(os.getenv("API_RECEIPT") + "/tickets/mostPurchasedItem")
         best_purchased_item = unmarshall_mostpurchased(most_purchased)
 
         message = HTTPMsg(status=200, message="Success", content=best_purchased_item)

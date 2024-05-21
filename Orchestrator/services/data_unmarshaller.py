@@ -51,7 +51,7 @@ def unmarshall_sum(sum_data) -> Sum:
     
 def unmarshall_mostpurchased(mostpurchased_data) -> MostPurchased:
     try:
-        mostpurchased = MostPurchased(**mostpurchased_data)
+        mostpurchased = [MostPurchased(**mostpurchased_data) for mostpurchased_data in mostpurchased_data]
         return mostpurchased
     except ValidationError as e:
         raise Exception(
