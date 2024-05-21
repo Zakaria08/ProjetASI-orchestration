@@ -1,4 +1,4 @@
-from schemas import Receipt, Client
+from schemas import Receipt, Client, Sum, MostPurchased, BestPaymentMethod
 from pydantic import ValidationError
 
 
@@ -39,3 +39,31 @@ def unmarshall_allclients(allclients_data) -> Client:
         raise Exception(
             f"The server encountered an error when trying to retrieve information about the customer list 'unmarshall_allclients': {e}"
         )
+    
+def unmarshall_sum(sum_data) -> Sum:
+    try:
+        sum = Sum(**sum_data)
+        return sum
+    except ValidationError as e:
+        raise Exception(
+            f"The server encountered an error when trying to retrieve the sum: {e}"
+        )
+    
+def unmarshall_mostpurchased(mostpurchased_data) -> MostPurchased:
+    try:
+        mostpurchased = MostPurchased(**mostpurchased_data)
+        return mostpurchased
+    except ValidationError as e:
+        raise Exception(
+            f"The server encountered an error when trying to retrieve the most purchased item: {e}"
+        )
+    
+def unmarshall_bestpaymentmethod(bestpaymentmethod_data) -> BestPaymentMethod:
+    try:
+        bestpaymentmethod = [BestPaymentMethod(**bestpaymentmethod_data) for bestpaymentmethod_data in bestpaymentmethod_data]
+        return bestpaymentmethod
+    except ValidationError as e:
+        raise Exception(
+            f"The server encountered an error when trying to retrieve the best payment method: {e}"
+        )
+

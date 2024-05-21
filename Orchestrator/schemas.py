@@ -25,6 +25,16 @@ class Receipt(BaseModel):
     cashierName: str
     cardNumber: str
 
+class Sum(BaseModel):
+    sum: float
+
+class MostPurchased(BaseModel):
+    purchasedItem: str
+    quantity: int
+
+class BestPaymentMethod(BaseModel):
+    paymentMethod: str
+    quantity: float
 
 class HTTPMsg(BaseModel):
     status: int
