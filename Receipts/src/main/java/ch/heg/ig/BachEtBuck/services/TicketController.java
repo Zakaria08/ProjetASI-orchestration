@@ -89,7 +89,7 @@ public class TicketController {
 			Gson gson = new Gson();
 			//Crée un objet Map pour contenir la somme
 			Map<String, BigDecimal> response = new HashMap<>();
-			response.put("averageAmount", averageAmount);
+			response.put("sum", averageAmount);
 			//Convertit en JSON
 			String jsonData = gson.toJson(response);
 			return ResponseEntity.ok(jsonData);
