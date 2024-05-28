@@ -7,6 +7,16 @@ services:
     depends_on:
       - customers_mariadb
 
+  client_app:
+    build:
+      context: ./Client
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    depends_on:
+      - orchestrator_app
+
   customers_mariadb:
     image: mariadb
     restart: always
